@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Series Details</title>
+{% extends 'teams/base.html' %}
+
+<body>
+{% block body%}
+
+<h1> Series Details</h1>
+
+<h2>{{ser.SeriesName}}</h2>
+<h3>Series ID: {{ser.SeriesID}}</h3>
+<h3>Start Date: {{ser.StartDate}}</h3>
+<h3>End Date: {{ser.EndDate}}</h3>
+<h3> Participating Teams</h3>>
+<ul>
+    {% for p in ser.Teams.all() %}
+    <li><a href="/teams/{{p.TeamID}}">p.TeamName</a></li>
+    {% endfor %}
+</ul>
+<br>
+<a href="/series/{{ser.SeriesID}}/matches/">Click to view Series Fixtures</a>
+<br>
+<!...Delete....!>
+<form action="{% url 'series:Series-Delete' ser.pk%}" method="post" >
+    {% csrf_token %}
+    <input type="submit" value="Delete Series" >
+</form>
+<br>
+<!..Update...!>
+<form action="{% url 'series:Series-Update' ser.pk%}" method="post" >
+    {% csrf_token %}
+    <input type="submit" value="Update Series" >
+</form>
+
+{% endblock %}
+
+</body>
+</html>

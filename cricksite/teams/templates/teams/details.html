@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Details</title>
+{% extends 'teams/base.html' %}
+
+<body>
+{% block body%}
+
+<h1> Team Details</h1>
+<h2>{{team.TeamName}}</h2>
+<h3>Team ID: {{team.TeamID}}</h3>
+<h3>Team Rank: {{team.TeamRank}}</h3>
+<br>
+<a href="/teams/{{ team.TeamID }}/players">click to view team players</a><br>
+<!...Delete....!>
+<form action="/teams/{{team.TeamID}}/delete/" method="post" >
+    {% csrf_token %}
+    <input type="submit" value="Delete Team" >
+</form>
+<br>
+<!..Update...!>
+<form action="/teams/{{team.TeamID}}/update/" method="post" >
+    {% csrf_token %}
+    <input type="submit" value="Update Details" >
+</form>
+
+{% endblock %}
+
+</body>
+</html>

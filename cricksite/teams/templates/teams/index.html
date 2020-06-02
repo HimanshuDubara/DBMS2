@@ -1,0 +1,11 @@
+
+{% extends 'teams/base.html' %}
+{% block body%}
+<h1> This is the Teams Homepage</h1>
+{% for team in all_teams %}
+<li><a href="/teams/{{ team.TeamID }}/">{{team.TeamName}}</a></li><br>
+
+
+{% endfor %}
+{% endblock %}
+

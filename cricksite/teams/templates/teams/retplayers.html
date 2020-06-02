@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Players </title>
+</head>
+{% extends 'teams/base.html' %}
+<body>
+{% block body%}
+
+
+<h1>Players in the chosen Team</h1>
+
+<table style="width:100%">
+
+  <tr>
+    <th colspan="20" style="text-align:center">Player ID</th>
+    <th colspan="20" style="text-align:center">Player Name</th>
+    <th colspan="20" style="text-align:center">Player Age</th>
+    <th colspan="20" style="text-align:center">Player Type</th>
+    <th colspan="20" style="text-align:center">Update</th>
+    <th colspan="20" style="text-align:center">Delete</th>
+  </tr>
+
+  {% for p in pl %}
+  <tr>
+    <td colspan="20"  style="text-align:center">{{p.PID}}</td>
+    <td colspan="20"  style="text-align:center">{{p.PName}}</td>
+    <td colspan="20" style="text-align:center">{{p.PAge}}</td>
+    <td colspan="20" style="text-align:center">{{p.PType}}</td>
+    <td colspan="20" style="text-align:center">
+      <form action="{% url 'teams:Player-Update' p.pk %}" method="post" >
+    {% csrf_token %}
+    <input type="submit" value="Update Details" >
+</form>
+    </td>
+    <td colspan="20" style="text-align:center">
+<form action="{% url 'teams:Player-Delete' p.pk%}" method="post" >
+    {% csrf_token %}
+    <input type="submit" value="Delete Player" >
+</form>
+    </td>
+
+  </tr>
+  {% endfor %}
+
+{% endblock %}
+</body>
+</html>
