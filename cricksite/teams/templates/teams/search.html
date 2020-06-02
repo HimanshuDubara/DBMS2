@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    {%extends 'teams/base.html'%}
+    {%block body%}
+</head>
+<body>
+<h1>Search Teams, Players, Series</h1>
+<div class="row">
+    <div class="col-sm-12 col-md-7">
+        <div class="panel panel-default">
+            <div class="panel-body">
+               <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+                   {% csrf_token %}
+                     Search String: <input type="text" name="s">
+                      <label for="SearchType">Search Type :</label>
+                      <select name="SearchType" id="Types">
+                        <option value=1>All</option>
+                        <option value=2>Teams</option>
+                        <option value=3>Player</option>
+                        <option value=4>Series</option>
+                      </select>
+                   <div class="col-sm-offset-2 col-sm-10 ">
+                       <button type="submit" class="btn btn-success">Submit<</button>
+                   </div>
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="/teams/search/{{s}}/{{value}}/"> Click here after submitting to view result</a>
+</body>
+{% endblock %}
+</html>

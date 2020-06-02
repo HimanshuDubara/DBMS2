@@ -33,13 +33,13 @@ urlpatterns = (
                   url(r'^players/(?P<pid>[0-9]+)/delete/$', views.playerdelete, name='Player-Delete'),
 
                   # teams/series/
-                  url(r'^series/$', views.series_index, name='index'),
+                  url(r'^series/$', views.series_index, name='series_index'),
 
                   # teams/series/seriesID/
-                  url(r'^series/(?P<seriesID>[0-9]+)/$', views.series_details, name='details'),
+                  url(r'^series/(?P<seriesID>[0-9]+)/$', views.series_details, name='series_details'),
 
                   # teams/series/seriesID/matches/
-                  url(r'^series/(?P<seriesID>[0-9]+)/matches/$', views.matches, name='matches'),
+                  url(r'^series/(?P<seriesID>[0-9]+)/matches/$', views.matches, name='series_matches'),
                   # series/series/add/
                   url(r'series/add/$', views.SeriesCreate, name='Series-Add'),
 
@@ -57,6 +57,13 @@ urlpatterns = (
 
                   #teams/series/matches/matchID/delete/
                   url(r'^series/matches/(?P<matchID>[0-9]+)/delete/$', views.matchdelete, name='Match-Delete'),
+
+                  #teams/search/
+                  url(r'search/', views.search, name='search'),
+
+                  #teams/search/searchvalue/types/
+                  url(r'search/(?P<searchvalue>[\w\-]+)/(?P<type>[0-9]+)/', views.searchresult, name='search_result')
+
 
 )
 
