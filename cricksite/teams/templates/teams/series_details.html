@@ -11,7 +11,6 @@
 <h1> Series Details</h1>
 
 <h2>{{ser.SeriesName}}</h2>
-<h3>Series ID: {{ser.SeriesID}}</h3>
 <h3>Start Date: {{ser.StartDate}}</h3>
 <h3>End Date: {{ser.EndDate}}</h3>
 <h3> Participating Teams</h3>>
@@ -21,7 +20,7 @@
     {% endfor %}
 </ul>
 <br>
-<a href="/series/{{ser.SeriesID}}/matches/">Click to view Series Fixtures</a>
+<a href="/series/{{ser.pk}}/matches/">Click to view Series Fixtures</a>
 <br>
 <!...Delete....!>
 <form action="{% url 'series:Series-Delete' ser.pk%}" method="post" >

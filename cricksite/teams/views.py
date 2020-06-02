@@ -65,7 +65,7 @@ def series_details(request, seriesID):
 
 def matches(request, seriesID):
     try:
-        ml: object = Match.objects.filter(SeriesID_id=seriesID).order_by('MatchID')
+        ml: object = Match.objects.filter(Series_id=seriesID).order_by('MatchID')
     except Series.DoesNotExist:
         raise Http404("No Registered Matches in the Series")
     return render(request, 'teams/retmatches.html', {'ml': ml})
@@ -82,7 +82,7 @@ def SeriesCreate(request):
 
 
 def SeriesUpdate(request, pk1):
-    a = get_object_or_404(Series, SeriesID=pk1)
+    a = get_object_or_404(Series, pk=pk1)
     form = SeriesForm(request.POST or None, instance=a)
     if form.is_valid():
         form.savems()
@@ -197,25 +197,4 @@ def playerdelete(request, pid):
         raise Http404(" Sorry, we could not delete the given team")
 
 
-def savems(self, *args, **kwargs):
-    if self.version != Series.objects.get(SeriesID=self.pk).version:
-        raise Http404('Ooops!!!! Concurrency Issues, Try Again')
-    super(Series, self).save(*args, **kwargs)
 
-
-def savemm(self, *args, **kwargs):
-    if self.version != Match.objects.get(MatchID=self.pk).version:
-        raise Http404('Ooops!!!! Concurrency Issues, Try Again')
-    super(Match, self).save(*args, **kwargs)
-
-
-def savemp(self, *args, **kwargs):
-    if self.version != Player.objects.get(PID=self.pk).version:
-        raise Http404('Ooops!!!! Concurrency Issues, Try Again')
-    super(Player, self).save(*args, **kwargs)
-
-
-def savemt(self, *args, **kwargs):
-    if self.version != Teams.objects.get(TeamID=self.pk).version:
-        raise Http404('Ooops!!!! Concurrency Issues, Try Again')
-    super(Teams, self).save(*args, **kwargs)

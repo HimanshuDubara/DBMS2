@@ -3,7 +3,7 @@
 {% block body%}
 <h1> This is the Series Homepage</h1>
 {% for s in all_series %}
-<li><a href="/series/{{ s.SeriesID }}/">{{ s.SeriesID}}</a></li><br>
+<li><a href="/series/{{ s.pk }}/">{{ s.SeriesID}}</a></li><br>
 
 {% endfor %}
 {% endblock %}
