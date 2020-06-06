@@ -7,7 +7,7 @@
 {% extends 'teams/base.html'%}
 {% block body %}
 <body>
-{% if type ==1 %}
+{% if type1 ==1 %}
     <h3>Teams</h3>
     <ul>
         {% for t1 in t%}
@@ -17,27 +17,27 @@
     <h3>Players</h3>
     <ul>
         {% for p1 in p%}
-            <li><a href="url 'teams:players' p1.TeamID ">{{p1.Pname}}</a></li>
+            <li><a href="url 'teams:players' p1.Team ">{{p1.Pname}}</a></li>
         {% endfor %}
     </ul>
     <h3>Series</h3>
     <ul>
         {% for s1 in s%}
-            <li><a href="url 'teams:series_details' s1.SeriesID ">{{s1.SeriesName}}</a></li>
+            <li><a href="url 'teams:series_details' s1.pk ">{{s1.SeriesName}}</a></li>
         {% endfor %}
     </ul>
-{% elif type == 2%}
+{% elif type1 == 2%}
     <h3>Teams</h3>
     <ul>
         {% for t1 in t%}
-            <li><a href="url 'teams:details' t1.TeamID ">{{t1.TeamName}}</a></li>
+            <li><a href="url 'teams:details' t1.pk ">{{t1.TeamName}}</a></li>
         {% endfor %}
     </ul>}
-{% elif type == 3%}
+{% elif type1 == 3%}
     <h3>Players</h3>
     <ul>
         {% for p1 in p%}
-            <li><a href="url 'teams:players' p1.TeamID ">{{p1.Pname}}</a></li>
+            <li><a href="url 'teams:players' p1.Team ">{{p1.Pname}}</a></li>
         {% endfor %}
     </ul>
 {$ else $}

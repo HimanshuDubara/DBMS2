@@ -5,14 +5,32 @@
     <title>CrickSite</title>
 </head>
 
+
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <body>
 {% load static %}
-
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />{% endblock %}
+ <link rel="stylesheet" href="{% static 'css/base.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'teams/style.css' %}"/>
 <link rel="stylesheet" href ="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body class="black-skin">
+<style>
+
+body {
+    padding-left: 15px;
+}
+</style>
+<style>
+
+body {
+    padding-right: 20px;
+}
+</style>
+
 <nav class="navbar navbar-inverse">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="topNavBar">
         <span class="icon-bar"></span>
@@ -81,8 +99,18 @@
 
     </div>
 </nav>
+<style>
+    body{
+     background-image: url('{% static "img/bg.jpg" %}')
+    }
+</style>
+<style>
+  body {padding-top: 50px;}
+</style>
 {% block body %}
 {% endblock %}
-
+<style>
+  body {padding-bottom: 50px;}
+</style>
 </body>
 </html>

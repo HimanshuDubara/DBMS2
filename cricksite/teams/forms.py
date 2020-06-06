@@ -1,56 +1,47 @@
 from django import forms
-from .models import Teams, Player, Series, Match
+from .models import Teams, Series
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 
-class TeamForm(forms.ModelForm):
-    class Meta:
-        model = Teams
-        fields = [
-            'TeamID',
-            'TeamName',
-            'TeamRank'
-        ]
+class teamsform(forms.Form):
+    TeamName = forms.CharField(label="Team Name")
 
 
-class PlayerForm(forms.ModelForm):
-    class Meta:
-        model = Player
-        fields = [
-            'TeamID',
-            'PID',
-            'PName',
-            'PAge',
-            'PType',
 
-        ]
+class playerform(forms.Form):
+    PName = forms.CharField(label="Player Name")
+    PAge = forms.IntegerField(label="Player Age")
+    PType = forms.CharField(label="Player Type")
+    Team = forms.ModelChoiceField(queryset=Teams.objects.all(), label="Team")
 
 
-class SeriesForm(forms.ModelForm):
-    SeriesName = forms.CharField()
-    StartDate = forms.DateField()
-    EndDate = forms.DateField()
+class seriesform(forms.Form):
+    SeriesName = forms.CharField(label="Series Name")
+    StartDate = forms.DateField(label="Start Date")
+    EndDate = forms.DateField(label="End Date")
     Teams = forms.ModelMultipleChoiceField(queryset=Teams.objects.all())
 
-    class Meta:
-        model = Series
-        fields = [
-
-            'SeriesName',
-            'StartDate',
-            'EndDate',
-            'Teams'
-        ]
+    def clean_EndDate(self):
+        data = self.cleaned_data['EndDate']
+        data1 = self.cleaned_data['StartDate']
+        if data < data1:
+            raise ValidationError(_("End Date cannot be before Start Date"))
+        return data
 
 
-class MatchForm(forms.ModelForm):
-    SeriesID = forms.ModelChoiceField(queryset=Series.objects.all())
-    MatchID = forms.IntegerField()
+class matchform(forms.Form):
+    Series = forms.ModelChoiceField(queryset=Series.objects.all(), label="Series")
     Teams = forms.ModelMultipleChoiceField(queryset=Teams.objects.all())
+    MatchDate = forms.DateField(label="Match Date")
 
-    class Meta:
-        model = Match
-        fields = [
-            'SeriesID',
-            'MatchID',
-            'Teams'
-        ]
+
+
+class searchform(forms.Form):
+    a = ((1,'All'),(2,'Teams'),)
+    searchvalue = forms.CharField(label="Search Value")
+    type1 = forms.ChoiceField(choices = a)
+
+
+
+

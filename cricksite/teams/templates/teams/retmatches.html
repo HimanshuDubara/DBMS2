@@ -2,48 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Series Fixtures</title>
+    <title>Matches</title>
 </head>
-{% extends 'teams/base.html' %}
-<body>
+{% extends 'teams/base.html'%}
 {% block body%}
-
-
-<h1>Matches in the chosen Series</h1>
-
-<table style="width:100%">
-
-  <tr>
-    <th colspan="20" style="text-align:center">Match ID</th>
-    <th colspan="20" style="text-align:center">Teams</th>
-    <th colspan="20" style="text-align:center">Update(Saves a copy with your changes)</th>
-    <th colspan="20" style="text-align:center">Delete</th>
-  </tr>
-
-  {% for m in ml %}
-  <tr>
-    <td colspan="20"  style="text-align:center">{{m.MatchID}}</td>
-    <td colspan="20"  style="text-align:center">
-        {% for t in m.Teams.all()% }
-            {{t.TeamName}},
-        {% endfor %}
-    </td>
-    <td colspan="20" style="text-align:center">
-      <form action="{% url 'series:Match-Update' m.pk %}" method="get" >
-    {% csrf_token %}
-    <input type="submit" value="Update Details" >
-</form>
-    </td>
-    <td colspan="20" style="text-align:center">
-      <form action="{% url 'series:Match-Delete' m.pk%}" method="get" >
-    {% csrf_token %}
-    <input type="submit" value="Delete Match" >
-</form>
-    </td>
-
-  </tr>
-  {% endfor %}
-
-{% endblock %}
+<body>
+<h2>Upcoming Matches</h2>
+{% for m in pendingmatches%}
+<div class="list-group">
+    <a href="matches/{{m.pk}}/teams/" class="list-group-item">
+         <h4 class="list-group-item-heading">{{m.MatchDate}}</h4>
+        <p class="list-group-item-text">Click To see Teams Playing </p>
+    </a>
+</div>
+{% endfor %}
+<br>
+<h2>Done Matches</h2>
+{% for m in donematches%}
+<div class="list-group">
+    <a href="matches/{{m.pk}}/teams/" class="list-group-item">
+         <h4 class="list-group-item-heading">m.MatchDate</h4>
+        <p class="list-group-item-text">Click To see Teams Playing </p>
+    </a>
+</div>
+{% endfor %}
 </body>
+{% endblock %}
 </html>

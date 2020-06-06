@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Match Decide</title>
+    {% extends 'teams/base.html'%}
+    {% block body %}
+</head>
+<body>
+<form action="{% url 'teams:mathdecide' %}" method="post">
+{% for ml in m%}
+<div class="form-check">
+  <label class="form-check-label">
+    <input type="radio" class="form-check-input" name="optradio">{{ml.TeamName}}
+  </label>
+</div>
+{% endfor %}
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>
+{% endblock%}
+</html>

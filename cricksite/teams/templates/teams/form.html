@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Form</title>
+{% extends 'teams/base.html' %}
+{% block body%}
+</head>
+<body>
+
+
+
+
+<div class="row">
+    <div class="col-sm-30 col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-body">
+               <form class="form-horizontal" action="" method="post" >
+                   {% csrf_token %}
+                   {{ form.as_p }}
+                   <div class="col-sm-offset-5 col-sm-30 ">
+                       <button type="submit" class="btn btn-success">Submit<</button>
+                   </div>
+
+
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>

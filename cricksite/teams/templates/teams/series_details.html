@@ -9,30 +9,26 @@
 {% block body%}
 
 <h1> Series Details</h1>
+<div class="list-group">
+    <a href="" class="list-group-item">
+         <h2 class="list-group-item-heading">{{ser.SeriesName}}</h2>
 
-<h2>{{ser.SeriesName}}</h2>
-<h3>Start Date: {{ser.StartDate}}</h3>
-<h3>End Date: {{ser.EndDate}}</h3>
-<h3> Participating Teams</h3>>
-<ul>
-    {% for p in ser.Teams.all() %}
-    <li><a href="/teams/{{p.TeamID}}">p.TeamName</a></li>
-    {% endfor %}
-</ul>
-<br>
-<a href="/series/{{ser.pk}}/matches/">Click to view Series Fixtures</a>
-<br>
-<!...Delete....!>
-<form action="{% url 'series:Series-Delete' ser.pk%}" method="post" >
-    {% csrf_token %}
-    <input type="submit" value="Delete Series" >
-</form>
-<br>
-<!..Update...!>
-<form action="{% url 'series:Series-Update' ser.pk%}" method="post" >
-    {% csrf_token %}
-    <input type="submit" value="Update Series" >
-</form>
+        <h2 class="list-group-item-heading">Participating Teams</h2>
+        <ul>
+        {% for p in ts %}
+        <li><a href="/teams/{{p.pk}}">p.TeamName</a></li>
+        {% endfor %}
+        </ul>
+        <a href="/teams/series/{{ser.pk}}/matches/" class="list-group-item">Click to view Series Fixtures</a>
+        <a href="/teams/series/{{ser.pk}}/update/" class="list-group-item">Click To Update</a>
+       <a href="/teams/series/{{ser.pk}}/delete/" class="list-group-item">Click To Delete</a>
+        <a href="/teams/series/{{ser.pk}}/matches/" class ="list-group-item">Click To view Fixtures</a>
+
+
+</a>
+</div>
+
+
 
 {% endblock %}
 

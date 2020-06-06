@@ -3,7 +3,16 @@
 {% block body%}
 <h1> This is the Teams Homepage</h1>
 {% for team in all_teams %}
-<li><a href="/teams/{{ team.TeamID }}/">{{team.TeamName}}</a></li><br>
+
+<div class="list-group">
+    <a href="{{ team.pk }}/" class="list-group-item">
+         <h4 class="list-group-item-heading">{{team.TeamName}}</h4>
+        <p class="list-group-item-text">Click To see More </p>
+    </a>
+</div>
+<br>
+<br>
+
 
 
 {% endfor %}
