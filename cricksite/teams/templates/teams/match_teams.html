@@ -10,12 +10,13 @@
 {%for ts in t%}
 <div class="list-group">
     <a href="/teams/{{ts.pk}}" class="list-group-item">
-         <h4 class="list-group-item-heading">ts.TeamName</h4>
+         <h4 class="list-group-item-heading">{{ts.TeamName}}</h4>
 
     </a>
 </div>
-<a href="/teams/match/{{matchID}}/decide/" class="btn btn-primary stretched-link">Choose Result</a>
 {%endfor%}
+<a href="/teams/match/{{matchID}}/decide/" class="btn btn-primary stretched-link">Choose Result</a>
+
 </body>
 {% endblock %}
 </html>

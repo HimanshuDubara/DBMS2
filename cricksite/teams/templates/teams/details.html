@@ -9,10 +9,10 @@
 {% block body%}
 
 <h1> Team Details</h1>
-<div class="list-group">
-    <a href="" class="list-group-item">
+<div class="list-group list-group-item-dark">
+    <a href="" class="list-group-item ">
          <h2 class="list-group-item-heading">{{team.TeamName}}</h2>
-        <h3 class="list-group-item">Team Rank: {{team.TeamRank}}</h3>
+        <h3 class="list-group-item">Team Points: {{team.Points}}</h3>
         <a href="/teams/{{ team.pk }}/players" class="list-group-item">click to view team players</a>
         <a href="/teams/{{team.pk}}/update/" class="list-group-item">Click To Update</a>
        <a href="/teams/{{team.pk}}/delete/" class="list-group-item">Click To Delete</a>

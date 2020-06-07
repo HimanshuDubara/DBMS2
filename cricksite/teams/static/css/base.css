@@ -2,8 +2,13 @@ h1 a, h2 a {
     color: #C25100;
 }
  h1 {
-  font-family : "Lucida Console"
+  font-family : "Arial"
  }
  p{
-  font-family: "Courier New"
+  font-family: "Arial"
  }
+
+ a.custom-card,
+a.custom-card:hover {
+  color: inherit;
+}

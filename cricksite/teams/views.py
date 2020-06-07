@@ -1,14 +1,14 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Teams, Player, Series, Match
-from django.http import Http404
-from .forms import teamsform, playerform, seriesform, matchform, searchform
+from django.http import Http404,HttpResponseRedirect
+from .forms import teamsform, playerform, seriesform, matchform, searchform,match_result_form
 from datetime import date
 from django.urls import reverse
 
 
 # Create your views here.
 def index(request):
-    context = {'all_teams': Teams.objects.all().order_by('TeamRank')}
+    context = {'all_teams': Teams.objects.all().order_by('-Points')}
     return render(request, 'teams/index.html', context)
 
 
@@ -63,6 +63,7 @@ def TeamCreate(request):
             team.TeamName = form.cleaned_data['TeamName']
 
             team.save()
+            return redirect('/teams/')
     else:
         form = teamsform()
     context = {'form': form}
@@ -104,7 +105,7 @@ def SeriesCreate(request):
             series.save()
             for f in form.cleaned_data['Teams']:
                 series.Teams.add(f)
-
+            return redirect('/teams/series/')
     else:
         form = seriesform()
     context = {'form': form}
@@ -124,6 +125,7 @@ def SeriesUpdate(request, pk1):
             series.save()
             for f in form.cleaned_data['Teams']:
                 series.Teams.add(f)
+            return redirect('/teams/series/')
     else:
         forms = seriesform()
     context = {
@@ -140,7 +142,7 @@ def seriesdelete(request, seriesID):
         raise Http404("Please Select a valid Series to remove")
     deleted = t.delete()
     if deleted:
-        return redirect('teams/series/')
+        return redirect('/teams/series/')
     else:
         raise Http404(" Sorry, we could not delete the given Series")
 
@@ -155,6 +157,7 @@ def MatchCreate(request):
             match.save()
             for f in form.cleaned_data['Teams']:
                 match.Teams.add(f)
+            return reverse('/teams/series/')
     else:
         form = matchform()
     context = {'form': form, }
@@ -200,6 +203,7 @@ def TeamUpdate(request, pk1):
         if form.is_valid():
             team.TeamName = form.cleaned_data['TeamName']
             team.save()
+        return reverse('/teams/')
     else:
         form = teamsform()
     context = {'form': form,
@@ -215,7 +219,7 @@ def teamdelete(request, teamID):
         raise Http404("Please Select a valid team to remove")
     deleted = t.delete()
     if deleted:
-        return redirect('teams/')
+        return redirect('/teams/')
     else:
         raise Http404(" Sorry, we could not delete the given team")
 
@@ -230,6 +234,7 @@ def PlayerCreate(request):
             player.PType = form.cleaned_data['PType']
             player.Team = form.cleaned_data['Team']
             player.save()
+        return reverse('/teams/')
 
     else:
         form = playerform()
@@ -248,6 +253,7 @@ def PlayerUpdate(request, pk1):
             player.PType = form.cleaned_data['PType']
             player.Team = form.cleaned_data['Team']
             player.save()
+        return reverse('/teams/')
     else:
         form = playerform()
     context = {'form': form,
@@ -273,12 +279,28 @@ def matchteams(request, matchID):
     return render(request,'teams/match_teams.html',{'t':t,'matchID':matchID})
 
 def matchdecide(request,matchID):
-    m = Match.objects.get(pk = matchID).Teams.all()
+    m = Match.objects.get(pk = matchID)
+    tm = m.Teams.all()
 
-    if m.MatchDate > date.today():
-        return Http404("Please wait till after the match day to update result")
+    if request.method == 'POST':
+        form = match_result_form(request.POST)
+        if form.is_valid():
+            m.WinningTeam = form.cleaned_data['Team_Name']
+            a = Teams.objects.get(TeamName__exact= m.WinningTeam)
+            a. Points = a.Points +3
+            a.save()
+            m.save()
     else:
-        return render(request,'teams/matchdecide.html',{'m':m})
+        if(m.WinningTeam == 'NoTeam'):
+            form = match_result_form(tm)
+        else:
+            return Http404('Team Result Already Decided')
+    context ={
+        'form' : form
+    }
+    return render(request, 'teams/form.html',context)
+
+
 
 
 

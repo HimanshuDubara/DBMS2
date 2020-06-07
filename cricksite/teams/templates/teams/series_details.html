@@ -11,18 +11,22 @@
 <h1> Series Details</h1>
 <div class="list-group">
     <a href="" class="list-group-item">
-         <h2 class="list-group-item-heading">{{ser.SeriesName}}</h2>
+         <h2 class="list-group-item-heading list-group-item-dark">{{ser.SeriesName}}</h2>
 
-        <h2 class="list-group-item-heading">Participating Teams</h2>
-        <ul>
+        <h3 class="list-group-item-heading list-group-item-dark">Participating Teams
+
         {% for p in ts %}
-        <li><a href="/teams/{{p.pk}}">p.TeamName</a></li>
+
+                 <a href="/teams/{{p.pk}}" class="list-group-item">{{p.TeamName}}</a>
+
+
         {% endfor %}
-        </ul>
-        <a href="/teams/series/{{ser.pk}}/matches/" class="list-group-item">Click to view Series Fixtures</a>
-        <a href="/teams/series/{{ser.pk}}/update/" class="list-group-item">Click To Update</a>
-       <a href="/teams/series/{{ser.pk}}/delete/" class="list-group-item">Click To Delete</a>
-        <a href="/teams/series/{{ser.pk}}/matches/" class ="list-group-item">Click To view Fixtures</a>
+            </h3>
+
+        <a href="/teams/series/{{ser.pk}}/matches/" class="list-group-item list-group-item-dark">Click to view Series Fixtures</a>
+        <a href="/teams/series/{{ser.pk}}/update/" class="list-group-item list-group-item-dark">Click To Update</a>
+       <a href="/teams/series/{{ser.pk}}/delete/" class="list-group-item list-group-item-dark">Click To Delete</a>
+
 
 
 </a>

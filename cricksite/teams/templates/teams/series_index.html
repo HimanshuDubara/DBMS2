@@ -1,15 +1,17 @@
 
 {% extends 'teams/base.html' %}
 {% block body%}
-<h1> This is the Series Homepage</h1>
-{% for s in all_series %}
 
-<div class="list-group">
-    <a href="series/{{ s.pk }}/" class="list-group-item">
-         <h4 class="list-group-item-heading">{{s.SeriesName}}</h4>
-        <p class="list-group-item-text">Click To see More </p>
-    </a>
+<h1> This is the Series Homepage</h1>
+
+{% for s in all_series %}
+<div class="panel panel-default">
+    <div class="panel-heading"><h3>{{s.SeriesName}}</h3></div>
+    <div class="panel-body"><a href="series/{{ s.pk }}/" class="">Click To View More</a></div>
 </div>
+
+
 {% endfor %}
+
 {% endblock %}
 
