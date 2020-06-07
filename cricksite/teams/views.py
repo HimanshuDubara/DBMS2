@@ -34,8 +34,17 @@ def search(request):
         if form.is_valid():
             searchvalue = form.cleaned_data['searchvalue']
             type1 = form.cleaned_data['type1']
+            context = {
+                't': Teams.objects.all().filter(TeamName__contains=searchvalue),
+                'p': Player.objects.all().filter(PName__contains=searchvalue),
+                's': Series.objects.all().filter(SeriesName__contains=searchvalue),
+                'type1': type1
 
-            return redirect('/teams/search_result/'+ str(searchvalue)+'/'+str(type1)+'/')
+            }
+            print(searchvalue)
+            print(type1)
+            print(context)
+            return render(request,'teams/search_result.html',context)
     else:
         print('Hello')
         form = searchform()
@@ -157,7 +166,7 @@ def MatchCreate(request):
             match.save()
             for f in form.cleaned_data['Teams']:
                 match.Teams.add(f)
-            return reverse('/teams/series/')
+            return redirect('/teams/series/')
     else:
         form = matchform()
     context = {'form': form, }
@@ -175,6 +184,7 @@ def MatchUpdate(request, pk1):
             match.save()
             for f in form.cleaned_data['Teams']:
                 match.Teams.add(f)
+            return redirect('/teams/series/')
     else:
         form = matchform()
     context = {
@@ -203,7 +213,7 @@ def TeamUpdate(request, pk1):
         if form.is_valid():
             team.TeamName = form.cleaned_data['TeamName']
             team.save()
-        return reverse('/teams/')
+        return redirect('/teams/')
     else:
         form = teamsform()
     context = {'form': form,
@@ -253,7 +263,7 @@ def PlayerUpdate(request, pk1):
             player.PType = form.cleaned_data['PType']
             player.Team = form.cleaned_data['Team']
             player.save()
-        return reverse('/teams/')
+        return redirect('/teams/')
     else:
         form = playerform()
     context = {'form': form,

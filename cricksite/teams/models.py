@@ -9,7 +9,6 @@ from django.http import Http404
 class Teams(models.Model):
     version = IntegerVersionField()
     TeamName = models.CharField(max_length=50, null=True)
-
     Points = models.IntegerField(default= 0)
 
     def __str__(self):

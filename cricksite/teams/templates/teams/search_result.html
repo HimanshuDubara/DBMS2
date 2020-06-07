@@ -3,10 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Search Result</title>
+    {% extends 'teams/base.html'%}
+    {% block body %}
+    <h1>Search Result</h1>
+
+
+
+        <h3>Teams</h3>
+        {% for t1 in t%}
+           <div class="panel panel-default">
+    <div class="panel-heading"><h3>{{t1.TeamName}}</h3></div>
+    <div class="panel-body"><a href="{{ team.pk }}/" class="">Click To View More</a></div>
+</div>
+        {% endfor %}
+
+
+         {%if type1 == 1 or type1 == 3 %}
+        <h3>Teams</h3>
+        {% for p1 in p%}
+            <li><a href="url 'teams:players' p1.Team ">{{p1.Pname}}</a></li>
+        {% endfor %}
+        {% endif%}
+
+
+
 </head>
-{% extends 'teams/base.html'%}
-{% block body %}
+
 <body>
+
 {% if type1 == 1 %}
     <h3>Teams</h3>
     <ul>

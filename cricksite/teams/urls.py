@@ -62,7 +62,7 @@ urlpatterns = (
                   url(r'search/', views.search, name='search'),
 
                   #teams/search_result/searchvalue/types/
-                  url(r'search_result/(?P<searchvalue>[\w\-]+)/(?P<type1>[0-9]+)/', views.searchresult, name='search_result'),
+                  #url(r'search_result/(?P<searchvalue>[\w\-]+)/(?P<type1>[0-9]+)/', views.searchresult, name='search_result'),
 
                   #teams/matches/matchID/teams/
                   url(r'matches/(?P<matchID>[0-9]+)/teams/',views.matchteams,name='match_teams'),
