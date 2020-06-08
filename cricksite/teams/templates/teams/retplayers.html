@@ -29,16 +29,10 @@
     <td colspan="20" style="text-align:center">{{p.PAge}}</td>
     <td colspan="20" style="text-align:center">{{p.PType}}</td>
     <td colspan="20" style="text-align:center">
-      <form action="{% url 'teams:Player-Update' p.pk %}" method="post" >
-    {% csrf_token %}
-    <input type="submit" value="Update Details" >
-</form>
+    <a href="{% url 'teams:Player-Update' p.pk %}">Update Details</a>
     </td>
     <td colspan="20" style="text-align:center">
-<form action="{% url 'teams:Player-Delete' p.pk%}" method="post" >
-    {% csrf_token %}
-    <input type="submit" value="Delete Player" >
-</form>
+    <a href="{% url 'teams:Player-Delete' p.pk %}">Delete Player</a>
     </td>
 
   </tr>

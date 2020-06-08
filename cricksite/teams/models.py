@@ -1,8 +1,7 @@
 from django.db import models
 from datetime import datetime
-from django.urls import reverse
 from concurrency.fields import IntegerVersionField
-from django.http import Http404
+
 
 
 # Create your models here.

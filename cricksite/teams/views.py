@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Teams, Player, Series, Match
-from django.http import Http404,HttpResponseRedirect
+from django.http import Http404,HttpResponsePermanentRedirect
 from .forms import teamsform, playerform, seriesform, matchform, searchform,match_result_form
 from datetime import date
 from django.urls import reverse
@@ -26,7 +26,8 @@ def players(request, teamID):
     except Player.DoesNotExist:
         raise Http404("No Registered Players in the Team")
     return render(request, 'teams/retplayers.html', {'pl': pl})
-
+    return HttpResponsePermanentRedirect(reverse('Player-Update', args=(pk1)))
+    return HttpResponsePermanentRedirect(reverse('PLayer-Delete', args=(pk1)))
 
 def search(request):
     if request.method == 'POST':
@@ -34,29 +35,35 @@ def search(request):
         if form.is_valid():
             searchvalue = form.cleaned_data['searchvalue']
             type1 = form.cleaned_data['type1']
+
+
+
             context = {
                 't': Teams.objects.all().filter(TeamName__contains=searchvalue),
                 'p': Player.objects.all().filter(PName__contains=searchvalue),
                 's': Series.objects.all().filter(SeriesName__contains=searchvalue),
-                'type1': type1
+
+
 
             }
-            print(searchvalue)
-            print(type1)
-            print(context)
-            return render(request,'teams/search_result.html',context)
+            if int(type1) == 1:
+                return render(request,'teams/search_result_1.html',context)
+            elif int(type1) == 2:
+                return render(request, 'teams/search_result_2.html', context)
+            elif int(type1) == 3:
+                return render(request, 'teams/search_result_3.html', context)
+            else:
+                return render(request, 'teams/search_result_4.html', context)
     else:
-        print('Hello')
         form = searchform()
-        print(form)
     return render(request, 'teams/form.html', {'form': form})
 
 
 def searchresult(request, searchvalue, type1):
     context = {
-        't': Teams.objects.all().filter(TeamName__contains=searchvalue),
-        'p': Player.objects.all().filter(PName__contains=searchvalue),
-        's': Series.objects.all().filter(SeriesName__contains=searchvalue),
+        't': Teams.objects.all().filter(TeamName__icontains=searchvalue),
+        'p': Player.objects.all().filter(PName__icontains=searchvalue),
+        's': Series.objects.all().filter(SeriesName__icontains=searchvalue),
         'type1': type1
     }
     return render(request, 'teams/search_result.html', context)
@@ -122,38 +129,9 @@ def SeriesCreate(request):
     return render(request, 'teams/form.html', context)
 
 
-def SeriesUpdate(request, pk1):
-    series = get_object_or_404(Series, pk=pk1)
-    if request.method == 'POST':
-        form = seriesform(request.POST)
-        if form.is_valid():
-            series.SeriesName = form.cleaned_data['SeriesName']
-            series.StartDate = form.cleaned_data['StartDate']
-            series.EndDate = form.clean_EndDate()
-
-            series.save()
-            for f in form.cleaned_data['Teams']:
-                series.Teams.add(f)
-            return redirect('/teams/series/')
-    else:
-        forms = seriesform()
-    context = {
-        'form': form,
-        'series': series
-    }
-    return render(request, 'teams/form.html', context)
 
 
-def seriesdelete(request, seriesID):
-    try:
-        t: object = Series.objects.get(pk=seriesID)
-    except Series.DoesNotExist:
-        raise Http404("Please Select a valid Series to remove")
-    deleted = t.delete()
-    if deleted:
-        return redirect('/teams/series/')
-    else:
-        raise Http404(" Sorry, we could not delete the given Series")
+
 
 
 def MatchCreate(request):
@@ -173,37 +151,8 @@ def MatchCreate(request):
     return render(request, 'teams/form.html', context)
 
 
-def MatchUpdate(request, pk1):
-    match = get_object_or_404(Match, pk=pk1)
-    if request.method == 'POST':
-        form = matchform(request.POST or None)
-        match = Match()
-        if form.is_valid():
-            match.Series = form.cleaned_data['Series']
-            match.MatchDate = form.cleaned_data['MatchDate']
-            match.save()
-            for f in form.cleaned_data['Teams']:
-                match.Teams.add(f)
-            return redirect('/teams/series/')
-    else:
-        form = matchform()
-    context = {
-        'form': form,
-        'match': match,
-    }
-    return render(request, 'teams/form.html', context)
 
 
-def matchdelete(request, matchID):
-    try:
-        t: object = Match.objects.get(pk=matchID)
-    except Match.DoesNotExist:
-        raise Http404("Please Select a valid match to remove")
-    deleted = t.delete()
-    if deleted:
-        return redirect('teams/series/')
-    else:
-        raise Http404(" Sorry, we could not delete the given match")
 
 
 def TeamUpdate(request, pk1):
@@ -213,7 +162,7 @@ def TeamUpdate(request, pk1):
         if form.is_valid():
             team.TeamName = form.cleaned_data['TeamName']
             team.save()
-        return redirect('/teams/')
+       # return redirect('/teams/')
     else:
         form = teamsform()
     context = {'form': form,
@@ -244,7 +193,7 @@ def PlayerCreate(request):
             player.PType = form.cleaned_data['PType']
             player.Team = form.cleaned_data['Team']
             player.save()
-        return reverse('/teams/')
+        #return reverse('/teams/')
 
     else:
         form = playerform()
@@ -252,8 +201,8 @@ def PlayerCreate(request):
     return render(request, 'teams/form.html', context)
 
 
-def PlayerUpdate(request, pk1):
-    player = get_object_or_404(Player, pk=pk1)
+def PlayerUpdate1(request, pid):
+    player = get_object_or_404(Player, pk=pid)
     if request.method == 'POST':
         form = playerform(request.POST or None)
 
@@ -263,7 +212,7 @@ def PlayerUpdate(request, pk1):
             player.PType = form.cleaned_data['PType']
             player.Team = form.cleaned_data['Team']
             player.save()
-        return redirect('/teams/')
+        #return redirect('/teams/')
     else:
         form = playerform()
     context = {'form': form,
@@ -291,18 +240,26 @@ def matchteams(request, matchID):
 def matchdecide(request,matchID):
     m = Match.objects.get(pk = matchID)
     tm = m.Teams.all()
-
+    d = False
     if request.method == 'POST':
-        form = match_result_form(request.POST)
+        form= match_result_form(request.POST)
+
+
         if form.is_valid():
-            m.WinningTeam = form.cleaned_data['Team_Name']
-            a = Teams.objects.get(TeamName__exact= m.WinningTeam)
-            a. Points = a.Points +3
-            a.save()
-            m.save()
+           for f in tm:
+               if f.TeamName == form.cleaned_data['TeamName']:
+                    d=True
+
+           if d == True:
+                m.WinningTeam = form.cleaned_data['TeamName']
+                a = Teams.objects.get(TeamName__exact= m.WinningTeam)
+                a. Points = a.Points +3
+                a.save()
+                m.save()
     else:
         if(m.WinningTeam == 'NoTeam'):
-            form = match_result_form(tm)
+            form = match_result_form()
+
         else:
             return Http404('Team Result Already Decided')
     context ={

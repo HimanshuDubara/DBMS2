@@ -42,7 +42,6 @@ class searchform(forms.Form):
 
 
 class match_result_form(forms.Form):
+    TeamName = forms.CharField(max_length=100, label="Winning Team")
 
-    def __init__(self, teamslist, *args, **kwargs):
-        super(match_result_form, self).__init__(*args, **kwargs)
-        self.fields['Team_Name'] = forms.ChoiceField(choices=tuple([(t.TeamName, t.TeamName) for t in teamslist]))
+

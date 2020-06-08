@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Result</title>
+    {% extends 'teams/base.html'%}
+    {% block body %}
+    <h1>Search Result</h1>
+<h3>Teams</h3>
+
+        {% for t1 in t%}
+
+        <div class="panel panel-default">
+    <div class="panel-heading"><h3>{{t1.TeamName}}</h3></div>
+    <div class="panel-body"><a href="url 'teams:details' t1.pk" class="">Click To View More</a></div>
+</div>
+
+        {% endfor %}
+
+<h3>Players</h3>
+
+        {% for p1 in p%}
+
+            <div class="panel panel-default">
+    <div class="panel-heading"><h3>{{p1.PName}}</h3></div>
+    <div class="panel-body"><a href=" url 'teams:players' p1.Team" class="">Click To View More</a></div>
+</div>
+
+        {% endfor %}
+
+    <h3>Series</h3>
+
+        {% for s1 in s%}
+           <div class="panel panel-default">
+    <div class="panel-heading"><h3>{{s1.SeriesName}}</h3></div>
+    <div class="panel-body"><a href="url 'teams: series_details' s1.pk" class="">Click To View More</a></div>
+</div>
+        {% endfor %}
+
+{% endblock %}
+</head>
